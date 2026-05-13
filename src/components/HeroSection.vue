@@ -3,38 +3,25 @@
     class="relative w-full overflow-hidden"
     style="height: 100vh; background: #000"
   >
-    <!-- Car image — right side, full height -->
+    <!-- Car image -->
     <div
       ref="imgWrapRef"
-      class="absolute top-0 right-0 h-full pointer-events-none"
-      style="width: clamp(420px, 65vw, 900px); z-index: 1"
+      class="hero-img-wrap absolute pointer-events-none"
+      style="z-index: 1"
     >
-      <!-- Gradient mask: blends into black on left edge -->
-      <div
-        class="absolute inset-y-0 left-0 z-10"
-        style="
-          width: 45%;
-          background: linear-gradient(to right, #000 0%, transparent 65%);
-        "
-      ></div>
+      <!-- Gradient mask: left edge (desktop only) -->
+      <div class="hero-grad-left absolute inset-y-0 left-0 z-10"
+           style="width: 45%; background: linear-gradient(to right, #000 0%, transparent 65%);"></div>
+      <!-- Gradient mask: top edge (mobile only) -->
+      <div class="hero-grad-top absolute inset-x-0 top-0 z-10"
+           style="height: 45%; background: linear-gradient(to bottom, #000 0%, transparent 100%);"></div>
       <!-- Gradient mask: bottom -->
-      <div
-        class="absolute inset-x-0 bottom-0 z-10"
-        style="
-          height: 30%;
-          background: linear-gradient(to top, #000 0%, transparent 100%);
-        "
-      ></div>
+      <div class="absolute inset-x-0 bottom-0 z-10"
+           style="height: 30%; background: linear-gradient(to top, #000 0%, transparent 100%);"></div>
       <img
         :src="heroImage"
-        class="w-full h-full"
-        style="
-          object-fit: cover;
-          object-position: left center;
-          transform: translateZ(0);
-          will-change: transform;
-          opacity: 0.88;
-        "
+        class="hero-img w-full h-full"
+        style="transform: translateZ(0); will-change: transform; opacity: 0.88;"
       />
     </div>
 
@@ -53,8 +40,7 @@
 
     <!-- Left: hero text -->
     <div
-      class="absolute inset-y-0 left-0 z-10 flex flex-col justify-center px-10 md:px-20"
-      style="width: min(600px, 58%)"
+      class="hero-text absolute left-0 z-10 flex flex-col justify-center px-8 md:px-20"
     >
       <div ref="taglineRef" style="opacity: 0">
         <span
@@ -106,7 +92,7 @@
     <!-- Scroll cue -->
     <div
       ref="scrollCueRef"
-      class="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-3"
+      class="absolute bottom-44 left-1/2 -translate-x-1/2 z-10 hidden md:flex flex-col items-center gap-3"
       style="opacity: 0"
     >
       <span
@@ -121,13 +107,36 @@
 
     <!-- Car name badge -->
     <div
-      class="absolute bottom-8 right-10 z-10 pointer-events-none"
+      class="absolute bottom-44 right-10 z-10 pointer-events-none hidden md:block"
       ref="badgeRef"
       style="opacity: 0"
     >
       <span class="text-white/20 text-xs font-mono tracking-widest uppercase">{{
         carName
       }}</span>
+    </div>
+
+    <!-- Services pillar strip -->
+    <div
+      ref="pillarsRef"
+      class="absolute bottom-0 left-0 right-0 z-10"
+      style="opacity: 0; border-top: 1px solid rgba(255,255,255,0.06); background: rgba(0,0,0,0.55); backdrop-filter: blur(12px);"
+    >
+      <div class="max-w-7xl mx-auto px-6 md:px-16 grid grid-cols-3 divide-x divide-white/[0.06]">
+        <a
+          v-for="(pillar, i) in t.hero.pillars"
+          :key="i"
+          href="#services"
+          class="group flex flex-col gap-1 py-5 px-6 transition-colors duration-300 hover:bg-white/[0.025]"
+        >
+          <span class="font-display font-bold text-sm md:text-base text-white/80 group-hover:text-white transition-colors duration-300">
+            {{ pillar.label }}
+          </span>
+          <span class="text-xs font-mono tracking-widest" style="color: rgba(255,255,255,0.25)">
+            {{ pillar.desc }}
+          </span>
+        </a>
+      </div>
     </div>
   </section>
 </template>
@@ -151,6 +160,7 @@ const subRef = ref(null);
 const ctaRef = ref(null);
 const scrollCueRef = ref(null);
 const badgeRef = ref(null);
+const pillarsRef = ref(null);
 
 // ─── Random hero image ────────────────────────────────────────────────────────
 const rawHero = import.meta.glob("../assets/HeroSectionImages/*", {
@@ -197,6 +207,7 @@ onMounted(() => {
     0.9
   );
   tl.to(badgeRef.value, { opacity: 1, duration: 1.0, ease: "power2.out" }, 0.9);
+  tl.to(pillarsRef.value, { opacity: 1, y: 0, duration: 0.8, ease: "power2.out" }, 0.7);
 
   // Set initial translate for text reveal
   gsap.set([taglineRef.value, headlineRef.value, subRef.value, ctaRef.value], {
@@ -219,3 +230,53 @@ onMounted(() => {
   });
 });
 </script>
+
+<style scoped>
+/* ── Hero text panel ── */
+.hero-text {
+  top: 0;
+  bottom: 0;
+  width: min(600px, 58%);
+}
+@media (max-width: 767px) {
+  .hero-text {
+    top: 0;
+    bottom: auto;
+    width: 100%;
+    padding-top: 100px;
+    justify-content: flex-start;
+  }
+}
+
+/* ── Desktop: car on the right, full height, cropped cover ── */
+.hero-img-wrap {
+  top: 0;
+  right: 0;
+  height: 100%;
+  width: clamp(420px, 65vw, 900px);
+}
+.hero-img {
+  object-fit: cover;
+  object-position: left center;
+}
+.hero-grad-left  { display: block; }
+.hero-grad-top   { display: none; }
+
+/* ── Mobile: car at the bottom, full width, full car visible ── */
+@media (max-width: 767px) {
+  .hero-img-wrap {
+    top: auto;
+    bottom: 72px; /* above the pillar strip */
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 52vh;
+  }
+  .hero-img {
+    object-fit: contain;
+    object-position: center bottom;
+  }
+  .hero-grad-left { display: none; }
+  .hero-grad-top  { display: block; }
+}
+</style>

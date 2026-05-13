@@ -20,6 +20,11 @@ const messages = {
       headline3: "Yaratadi.",
       sub: "Premium fara ustasi",
       scroll: "Aylantiring",
+      pillars: [
+        { label: "Fara Remont", desc: "Tiklash · Linza · LED" },
+        { label: "Fara Sotish", desc: "Yangi · Original · Sifatli" },
+        { label: "Fara Sotib Olish", desc: "Tez · Adolatli Narx" },
+      ],
     },
     services: {
       label: "Biz Nima Qilamiz",
@@ -87,7 +92,7 @@ const messages = {
       locationName: "Sergeli Avtobozor",
       locationAddress: "Sergeli tumani, Toshkent, O'zbekiston",
       locationHours: "Ish vaqti: Sesh–Yak · 09:00–18:00",
-      copyright: "© 2024 Barcha huquqlar himoyalangan",
+      copyright: "© 2026 Barcha huquqlar himoyalangan",
     },
     scrollExplode: {
       label: "Muhandislik · Aniqlik · Mahorat",
@@ -114,6 +119,11 @@ const messages = {
       headline3: "Образ.",
       sub: "Мастерство фар премиум класса",
       scroll: "Прокрутите",
+      pillars: [
+        { label: "Ремонт фар", desc: "Восстановление · Линзы · LED" },
+        { label: "Продажа фар", desc: "Новые · Оригинал · Качество" },
+        { label: "Скупка фар", desc: "Быстро · Честная цена" },
+      ],
     },
     services: {
       label: "Что мы делаем",
@@ -181,7 +191,7 @@ const messages = {
       locationName: "Сергели Авторынок",
       locationAddress: "Сергелийский район, Ташкент, Узбекистан",
       locationHours: "Работает: Вт–Вс · 09:00–18:00",
-      copyright: "© 2024 Все права защищены",
+      copyright: "© 2026 Все права защищены",
     },
     scrollExplode: {
       label: "Инжиниринг · Точность · Мастерство",
